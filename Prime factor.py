@@ -65,12 +65,21 @@ def printPrimeFactors(number, factorsToPrint):
     '''
     a printing process for the prime factors
     '''
+    primeFactorCounting = {
+            }#dictionary for couting the number of instances of particular prime factors
+    for factor in factorsToPrint:
+        if factor not in primeFactorCounting:
+            primeFactorCounting[factor] = factorsToPrint.count(factor)
     print("The prime factors of", number, "are:")#formal printing
     #Next three lines produce the printing of prime factors
-    printing = str(factorsToPrint[0])
-    for i in range(1, len(factorsToPrint)):
-        printing += " x "+str(factorsToPrint[i])
-    print(printing)#the prime factors are printed
+    printing = ""
+    for key in primeFactorCounting:
+        if primeFactorCounting[key] != 1:#to make printing look more professional remove the ^1 printing
+            printing += str(key) + "^" + str(primeFactorCounting[key]) + " x "
+        else:
+            printing += str(key) + " x "
+    
+    print(printing[:-3])#the prime factors are printed
 
 def runProgram():
     '''
@@ -78,13 +87,16 @@ def runProgram():
     '''
     toFind = 0#intialise variable
     
-    while toFind < 2:#until a suitable value is inputted
+    while toFind < 1:#until a suitable value is inputted
         toFind = numberInput()#request an input
-        if toFind < 2:#if the value is invalid
+        if toFind < 1:#if the value is invalid
             print("That is an invalid input, you need a number greater than 1.")#print error message
     
     if len(factorFinder(toFind)) == 0:#if the number inputted is a prime has no pairs
-        print("This is a prime number already")#printing message
+        if toFind == 1:
+            print("1 isn't prime but can't be split into prime factors!")
+        else:
+            print("This is a prime number already")#printing message
     else:
         primeFactors = primeFactorFinder(toFind)#run the routine to determine the prime factors
         printPrimeFactors(toFind, primeFactors)#run routine for printing the prime factors
